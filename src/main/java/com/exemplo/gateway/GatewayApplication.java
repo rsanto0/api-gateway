@@ -8,11 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * RESPONSABILIDADES:
  * • Roteamento: Direciona requisições para microserviços corretos
- * • Autenticação: Valida tokens JWT antes de rotear
- * • Autorização: Controla acesso baseado em roles de usuário
+ * • Proxy de Autenticação: Delega validação JWT para Auth Service
  * • Headers: Injeta informações de usuário (X-User-Id, X-User-Login, X-User-Role)
  * • Centralização: Unifica acesso a múltiplos serviços em uma única porta
- * • Segurança: Aplica políticas de segurança de forma consistente
+ * • Proxy Inteligente: Aplica filtros baseado em rotas
  * 
  * FLUXO:
  * Cliente → Gateway (8080) → Auth Service (8081) | Sistema Ponto (8082)

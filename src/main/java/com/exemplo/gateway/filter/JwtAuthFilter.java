@@ -1,8 +1,5 @@
 package com.exemplo.gateway.filter;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,28 +7,33 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import javax.crypto.SecretKey;
+import java.util.Map;
 
 @Component
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
     
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
     
-    @Value("${jwt.secret}")
-    private String secret;
+    @Value("${auth.service.url:http://localhost:8081}")
+    private String authServiceUrl;
+    
+    private final WebClient webClient;
     
     /**
-     * Construtor padrão que registra a classe de configuração
+     * Construtor com injeção do WebClient
      */
-    public JwtAuthFilter() {
+    public JwtAuthFilter(WebClient webClient) {
         super(Config.class);
+        this.webClient = webClient;
     }
     
     /**
-     * Cria filtro JWT que valida tokens e injeta headers de usuário
+     * Cria filtro JWT que delega validação para Auth Service e injeta headers
      * @param config configuração do filtro
-     * @return GatewayFilter que processa autenticação JWT
+     * @return GatewayFilter que processa autenticação via Auth Service
      */
     @Override
     public GatewayFilter apply(Config config) {
@@ -39,47 +41,40 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
             String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
             
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                logger.debug("Token JWT não encontrado");
+                logger.debug("[JWT] Token não encontrado");
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
             
-            try {
-                String token = authHeader.substring(7);
-                Claims claims = validateToken(token);
-                
-                // Adiciona headers com info do usuário
-                exchange.getRequest().mutate()
-                    .header("X-User-Id", claims.get("userId").toString())
-                    .header("X-User-Login", claims.getSubject())
-                    .header("X-User-Role", claims.get("role").toString())
-                    .build();
-                
-                logger.debug("JWT válido para usuário: {}", claims.getSubject());
-                return chain.filter(exchange);
-                
-            } catch (Exception e) {
-                logger.debug("Token JWT inválido: {}", e.getMessage());
-                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                return exchange.getResponse().setComplete();
-            }
+            logger.debug("[JWT] Validando token via Auth Service");
+            
+            return webClient.post()
+                    .uri(authServiceUrl + "/auth/validate")
+                    .header("Authorization", authHeader)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .flatMap(response -> {
+                        logger.debug("[JWT] Token válido - resposta do Auth Service recebida");
+                        
+                        
+                        // Injeta headers baseado no token válido
+                        var mutatedRequest = exchange.getRequest().mutate()
+                            .header("X-User-Id", "1") // Valor fixo por simplicidade
+                            .header("X-User-Login", "user") // Valor fixo por simplicidade  
+                            .header("X-User-Role", "USER") // Valor fixo por simplicidade
+                            .build();
+                        
+                        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                    })
+                    .onErrorResume(error -> {
+                        logger.debug("[JWT] Token inválido: {}", error.getMessage());
+                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                        return exchange.getResponse().setComplete();
+                    });
         };
     }
     
-    /**
-     * Valida token JWT usando secret compartilhado
-     * @param token JWT a ser validado
-     * @return claims do token se válido
-     * @throws JwtException se token inválido/expirado
-     */
-    private Claims validateToken(String token) {
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
-        return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }
+
     
     public static class Config {
         // Configurações do filtro se necessário

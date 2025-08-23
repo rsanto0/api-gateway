@@ -20,8 +20,10 @@ spring:
             - name: JwtAuthFilter
             - StripPrefix=1
 
-jwt:
-  secret: minhachavesecretasuperseguraparaojwt123456789
+# Configuração do Auth Service
+auth:
+  service:
+    url: http://localhost:8081
 
 logging:
   level:
