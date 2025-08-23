@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "b8c3d4e5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+		"name": "API Gateway",
+		"description": "Collection para testar endpoints do API Gateway com roteamento e autenticação JWT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth Service (Público)",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"{{auth_login}}\",\n  \"senha\": \"{{auth_senha}}\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/auth/login",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/auth/validate",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"auth",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"newuser\",\n  \"senha\": \"password123\",\n  \"nome\": \"Novo Usuário\",\n  \"cpf\": \"12345678901\",\n  \"role\": \"FUNCIONARIO\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/auth/users",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"auth",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sistema Ponto (Protegido)",
+			"item": [
+				{
+					"name": "Listar Funcionários",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/funcionarios",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Ponto - Entrada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/pontos/{{funcionario_id}}/registrar?tipo=ENTRADA",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"pontos",
+								"{{funcionario_id}}",
+								"registrar"
+							],
+							"query": [
+								{
+									"key": "tipo",
+									"value": "ENTRADA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Ponto - Saída",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/pontos/{{funcionario_id}}/registrar?tipo=SAIDA",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"pontos",
+								"{{funcionario_id}}",
+								"registrar"
+							],
+							"query": [
+								{
+									"key": "tipo",
+									"value": "SAIDA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Pontos do Funcionário",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/pontos/{{funcionario_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"pontos",
+								"{{funcionario_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administração (Protegido)",
+			"item": [
+				{
+					"name": "Cadastrar Administrador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Admin Gateway\",\n  \"cpf\": \"00000000000\",\n  \"login\": \"admin\",\n  \"senha\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/admin",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Administrador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/admin/login?login={{admin_login}}&senha={{admin_senha}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"login"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "{{admin_login}}"
+								},
+								{
+									"key": "senha",
+									"value": "{{admin_senha}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Funcionário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"cpf\": \"98765432100\",\n  \"login\": \"joao\",\n  \"senha\": \"1234\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/admin/funcionarios",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todos os Pontos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/admin/pontos",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"pontos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Funcionário",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/admin/funcionarios/{{funcionario_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"funcionarios",
+								"{{funcionario_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Ponto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/admin/pontos/{{ponto_id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"pontos",
+								"{{ponto_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-save JWT token from auth login response",
+					"if (pm.response.code === 200 && pm.request.url.toString().includes('/auth/login')) {",
+					"    const response = pm.response.json();",
+					"    if (response.token) {",
+					"        pm.environment.set('jwt_token', response.token);",
+					"        console.log('JWT token saved to environment');",
+					"    }",
+					"    if (response.userId) {",
+					"        pm.environment.set('funcionario_id', response.userId);",
+					"        console.log('User ID saved to environment');",
+					"    }",
+					"}",
+					"",
+					"// Auto-save funcionario ID from sistema-ponto responses",
+					"if (pm.response.code === 200 && pm.request.url.toString().includes('/api/funcionarios/login')) {",
+					"    const response = pm.response.json();",
+					"    if (response.id) {",
+					"        pm.environment.set('funcionario_id', response.id);",
+					"        console.log('Funcionario ID saved to environment');",
+					"    }",
+					"}",
+					"",
+					"// Auto-save admin ID from admin login response", 
+					"if (pm.response.code === 200 && pm.request.url.toString().includes('/api/admin/login')) {",
+					"    const response = pm.response.json();",
+					"    if (response.id) {",
+					"        pm.environment.set('admin_id', response.id);",
+					"        console.log('Admin ID saved to environment');",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "auth_login",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "auth_senha",
+			"value": "admin123",
+			"type": "string"
+		},
+		{
+			"key": "admin_login",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "admin_senha",
+			"value": "admin123",
+			"type": "string"
+		},
+		{
+			"key": "funcionario_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "ponto_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
