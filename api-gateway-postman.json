@@ -313,9 +313,7 @@
 					"        pm.environment.set('funcionario_id', response.userId);",
 					"        console.log('User ID saved to environment');",
 					"    }",
-					"}",
-					"",
-
+					"}"
 				]
 			}
 		}
@@ -336,7 +334,6 @@
 			"value": "admin123",
 			"type": "string"
 		},
-
 		{
 			"key": "funcionario_id",
 			"value": "1",
