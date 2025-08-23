@@ -1,8 +1,6 @@
 # API Gateway
 
-[![Postman Sync](https://github.com/rsanto0/api-gateway/actions/workflows/sync-postman.yml/badge.svg?branch=main)](https://github.com/rsanto0/api-gateway/actions/workflows/sync-postman.yml)
-[![GitHub release](https://img.shields.io/github/v/release/rsanto0/api-gateway)](https://github.com/rsanto0/api-gateway/releases)
-[![License](https://img.shields.io/github/license/rsanto0/api-gateway)](https://github.com/rsanto0/api-gateway/blob/main/LICENSE)
+[![Sync Postman Collection](https://github.com/rsanto0/api-gateway/actions/workflows/sync-postman.yml/badge.svg?branch=main)](https://github.com/rsanto0/api-gateway/actions/workflows/sync-postman.yml)
 
 
 Gateway de API desenvolvido com Spring Cloud Gateway para roteamento e autenticação JWT de microserviços.
