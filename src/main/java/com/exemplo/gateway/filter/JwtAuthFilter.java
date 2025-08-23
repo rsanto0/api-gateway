@@ -21,10 +21,18 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
     @Value("${jwt.secret}")
     private String secret;
     
+    /**
+     * Construtor padrão que registra a classe de configuração
+     */
     public JwtAuthFilter() {
         super(Config.class);
     }
     
+    /**
+     * Cria filtro JWT que valida tokens e injeta headers de usuário
+     * @param config configuração do filtro
+     * @return GatewayFilter que processa autenticação JWT
+     */
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
@@ -58,6 +66,12 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
         };
     }
     
+    /**
+     * Valida token JWT usando secret compartilhado
+     * @param token JWT a ser validado
+     * @return claims do token se válido
+     * @throws JwtException se token inválido/expirado
+     */
     private Claims validateToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
         return Jwts.parser()
