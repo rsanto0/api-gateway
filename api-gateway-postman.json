@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "b8c3d4e5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+		"_postman_id": "5fa83526-c67e-405e-90f1-c0d8db6d64dc",
 		"name": "API Gateway",
-		"description": "Collection para testar endpoints do API Gateway com roteamento e autenticação JWT v1.0",
+		"description": "Collection para testar endpoints do API Gateway com roteamento e autenticação JWT v1.1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
