@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "5fa83526-c67e-405e-90f1-c0d8db6d64dc",
 		"name": "API Gateway",
-		"description": "Collection para testar endpoints do API Gateway com roteamento e autenticação JWT v1.3",
+		"description": "Collection para testar endpoints do API Gateway com roteamento e autenticação JWT v2.0",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -54,33 +54,6 @@
 							"path": [
 								"auth",
 								"validate"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Criar Usuário",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"login\": \"newuser\",\n  \"senha\": \"password123\",\n  \"nome\": \"Novo Usuário\",\n  \"cpf\": \"12345678901\",\n  \"role\": \"FUNCIONARIO\"\n}"
-						},
-						"url": {
-							"raw": "{{gateway_url}}/auth/users",
-							"host": [
-								"{{gateway_url}}"
-							],
-							"path": [
-								"auth",
-								"users"
 							]
 						}
 					},
@@ -205,67 +178,6 @@
 		{
 			"name": "Administração (Protegido)",
 			"item": [
-				{
-					"name": "Cadastrar Administrador",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Admin Gateway\",\n  \"cpf\": \"00000000000\",\n  \"login\": \"admin\",\n  \"senha\": \"admin123\"\n}"
-						},
-						"url": {
-							"raw": "{{gateway_url}}/api/admin",
-							"host": [
-								"{{gateway_url}}"
-							],
-							"path": [
-								"api",
-								"admin"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login Administrador",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}"
-							}
-						],
-						"url": {
-							"raw": "{{gateway_url}}/api/admin/login?login={{admin_login}}&senha={{admin_senha}}",
-							"host": [
-								"{{gateway_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"login"
-							],
-							"query": [
-								{
-									"key": "login",
-									"value": "{{admin_login}}"
-								},
-								{
-									"key": "senha",
-									"value": "{{admin_senha}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "Criar Funcionário",
 					"request": {
@@ -403,23 +315,7 @@
 					"    }",
 					"}",
 					"",
-					"// Auto-save funcionario ID from sistema-ponto responses",
-					"if (pm.response.code === 200 && pm.request.url.toString().includes('/api/funcionarios/login')) {",
-					"    const response = pm.response.json();",
-					"    if (response.id) {",
-					"        pm.environment.set('funcionario_id', response.id);",
-					"        console.log('Funcionario ID saved to environment');",
-					"    }",
-					"}",
-					"",
-					"// Auto-save admin ID from admin login response", 
-					"if (pm.response.code === 200 && pm.request.url.toString().includes('/api/admin/login')) {",
-					"    const response = pm.response.json();",
-					"    if (response.id) {",
-					"        pm.environment.set('admin_id', response.id);",
-					"        console.log('Admin ID saved to environment');",
-					"    }",
-					"}"
+
 				]
 			}
 		}
@@ -440,16 +336,7 @@
 			"value": "admin123",
 			"type": "string"
 		},
-		{
-			"key": "admin_login",
-			"value": "admin",
-			"type": "string"
-		},
-		{
-			"key": "admin_senha",
-			"value": "admin123",
-			"type": "string"
-		},
+
 		{
 			"key": "funcionario_id",
 			"value": "1",
