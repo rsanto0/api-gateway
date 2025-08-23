@@ -86,15 +86,27 @@ POST http://localhost:8080/auth/validate
 POST http://localhost:8080/auth/users
 ```
 
-### Requisições Protegidas
+### Requisições Protegidas (Funcionarios)
 ```bash
 # Sistema de ponto (requer JWT)
 POST http://localhost:8080/api/pontos/1/registrar
 GET  http://localhost:8080/api/pontos/1
-GET  http://localhost:8080/api/funcionarios
 
 # Headers obrigatórios
 Authorization: Bearer <jwt-token>
+```
+
+### Requisições Administrativas (Apenas ADMIN)
+```bash
+# Administração (requer JWT + Role ADMIN)
+GET    http://localhost:8080/api/admin/funcionarios
+POST   http://localhost:8080/api/admin/funcionarios
+DELETE http://localhost:8080/api/admin/funcionarios/1
+GET    http://localhost:8080/api/admin/pontos
+DELETE http://localhost:8080/api/admin/pontos/1
+
+# Headers obrigatórios
+Authorization: Bearer <jwt-token-admin>
 ```
 
 ## 🏃♂️ Executando
@@ -144,6 +156,26 @@ O projeto inclui uma collection Postman completa (`api-gateway-postman.json`) co
 - Recebe headers de usuário do gateway
 - Controle de ponto e funcionários
 
+## 🔐 Controle de Acesso
+
+### Headers Injetados pelo Gateway
+Após validação do JWT, o gateway injeta headers para controle de acesso:
+
+```
+X-User-Id: <userId>
+X-User-Login: <login>
+X-User-Role: <role>  # FUNCIONARIO ou ADMIN
+```
+
+### Proteção por Roles
+- **Endpoints Públicos**: Sem autenticação
+- **Endpoints Protegidos**: JWT válido obrigatório
+- **Endpoints Admin**: JWT válido + Role ADMIN obrigatório
+
+### Respostas de Segurança
+- **401 Unauthorized**: Token JWT inválido/ausente
+- **403 Forbidden**: Usuário sem permissão (role insuficiente)
+
 ## 📊 Logs
 
 Logs DEBUG habilitados para `com.exemplo.gateway`:
@@ -151,6 +183,7 @@ Logs DEBUG habilitados para `com.exemplo.gateway`:
 - `[JWT]` - Validação de tokens
 - `[ROUTE]` - Roteamento de requisições
 - `[FILTER]` - Execução de filtros
+- `[ADMIN_ACCESS]` - Controle de acesso administrativo
 
 ## 🤖 GitHub Actions
 

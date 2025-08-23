@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "5fa83526-c67e-405e-90f1-c0d8db6d64dc",
 		"name": "API Gateway",
-		"description": "Collection para testar endpoints do API Gateway com roteamento e autenticação JWT v2.0",
+		"description": "Collection para testar endpoints do API Gateway com roteamento, autenticação JWT e controle de acesso por roles v2.1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -64,29 +64,6 @@
 		{
 			"name": "Sistema Ponto (Protegido)",
 			"item": [
-				{
-					"name": "Listar Funcionários",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}"
-							}
-						],
-						"url": {
-							"raw": "{{gateway_url}}/api/funcionarios",
-							"host": [
-								"{{gateway_url}}"
-							],
-							"path": [
-								"api",
-								"funcionarios"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "Registrar Ponto - Entrada",
 					"request": {
@@ -178,6 +155,30 @@
 		{
 			"name": "Administração (Protegido)",
 			"item": [
+				{
+					"name": "Listar Funcionários",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{gateway_url}}/api/admin/funcionarios",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Criar Funcionário",
 					"request": {
