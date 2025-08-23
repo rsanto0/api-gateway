@@ -25,6 +25,18 @@ auth:
   service:
     url: http://localhost:8081
 
+# JWT - deve ser igual ao auth-service
+jwt:
+  secret: minhachavesecretasuperseguraparaojwt123456789
+  expiration: 3600000  # 1 hora em vez de 24h
+
 logging:
   level:
-    com.exemplo.gateway: DEBUG
+    com.exemplo.gateway: INFO
+    org.springframework.cloud.gateway: INFO
+    reactor.netty.http.client: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/api-gateway.log

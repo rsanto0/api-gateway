@@ -1,5 +1,13 @@
 # API Gateway
 
+[![Build](https://github.com/rsanto0/auth-service/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rsanto0/auth-service/actions/workflows/ci.yml)
+[![Tests](https://github.com/rsanto0/auth-service/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/rsanto0/auth-service/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/rsanto0/auth-service/branch/main/graph/badge.svg)](https://codecov.io/gh/rsanto0/auth-service)
+[![GitHub release](https://img.shields.io/github/v/release/rsanto0/auth-service)](https://github.com/rsanto0/auth-service/releases)
+[![License](https://img.shields.io/github/license/rsanto0/auth-service)](https://github.com/rsanto0/auth-service/blob/main/LICENSE)
+
+
+
 Gateway de API desenvolvido com Spring Cloud Gateway para roteamento e autenticação JWT de microserviços.
 
 ## 🚀 Tecnologias
