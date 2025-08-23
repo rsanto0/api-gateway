@@ -1,11 +1,8 @@
 # API Gateway
 
-[![Build](https://github.com/rsanto0/auth-service/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rsanto0/auth-service/actions/workflows/ci.yml)
-[![Tests](https://github.com/rsanto0/auth-service/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/rsanto0/auth-service/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/rsanto0/auth-service/branch/main/graph/badge.svg)](https://codecov.io/gh/rsanto0/auth-service)
-[![GitHub release](https://img.shields.io/github/v/release/rsanto0/auth-service)](https://github.com/rsanto0/auth-service/releases)
-[![License](https://img.shields.io/github/license/rsanto0/auth-service)](https://github.com/rsanto0/auth-service/blob/main/LICENSE)
-
+[![Postman Sync](https://github.com/rsanto0/api-gateway/actions/workflows/sync-postman.yml/badge.svg?branch=main)](https://github.com/rsanto0/api-gateway/actions/workflows/sync-postman.yml)
+[![GitHub release](https://img.shields.io/github/v/release/rsanto0/api-gateway)](https://github.com/rsanto0/api-gateway/releases)
+[![License](https://img.shields.io/github/license/rsanto0/api-gateway)](https://github.com/rsanto0/api-gateway/blob/main/LICENSE)
 
 
 Gateway de API desenvolvido com Spring Cloud Gateway para roteamento e autenticação JWT de microserviços.
@@ -121,6 +118,22 @@ mvn spring-boot:run
 
 Gateway disponível em: http://localhost:8080
 
+## 📚 Collection Postman
+
+O projeto inclui uma collection Postman completa (`api-gateway-postman.json`) com:
+
+- ✅ Todos os endpoints do Auth Service
+- ✅ Todos os endpoints do Sistema Ponto
+- ✅ Variáveis de ambiente pré-configuradas
+- ✅ Scripts automáticos para captura de JWT
+- ✅ Sincronização automática via GitHub Actions
+
+### Importar Collection
+1. Abra o Postman
+2. Import → Upload Files
+3. Selecione `api-gateway-postman.json`
+4. Configure as variáveis de ambiente se necessário
+
 ## 🔄 Integração com Microserviços
 
 ### Auth Service (8081)
@@ -140,6 +153,14 @@ Logs DEBUG habilitados para `com.exemplo.gateway`:
 - `[JWT]` - Validação de tokens
 - `[ROUTE]` - Roteamento de requisições
 - `[FILTER]` - Execução de filtros
+
+## 🤖 GitHub Actions
+
+### Workflow: Sync Postman Collection
+- **Trigger**: Push com alterações em `*-postman.json`
+- **Função**: Sincroniza collection com Postman Cloud
+- **Configuração**: Requer secrets `POSTMAN_API_KEY` e `COLLECTION_UID`
+- **Execução Manual**: Disponível via GitHub Actions
 
 ## ⚙️ Configuração Avançada
 
