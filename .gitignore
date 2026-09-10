@@ -1,2 +1,7 @@
 target/
 logs/
+*.prefs
+.project
+.project
+*.prefs
+/.settings

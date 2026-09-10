@@ -7,7 +7,7 @@ Gateway de API desenvolvido com Spring Cloud Gateway para roteamento e autentica
 
 ## 🚀 Tecnologias
 
-- **Java 17**
+- **Java 25**
 - **Spring Boot 3.3.2**
 - **Spring Cloud Gateway 2023.0.3**
 - **Spring WebFlux**
@@ -112,8 +112,8 @@ Authorization: Bearer <jwt-token-admin>
 ## 🏃♂️ Executando
 
 ### Pré-requisitos
-- Java 17+
-- Maven 3.6+
+- Java 25+
+- Maven 3.9+
 - Auth Service rodando na porta 8081
 - Sistema Ponto rodando na porta 8082
 
