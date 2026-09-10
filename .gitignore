@@ -5,3 +5,4 @@ logs/
 .project
 *.prefs
 /.settings
+.project
