@@ -6,3 +6,5 @@ logs/
 *.prefs
 /.settings
 .project
+/.settings
+/.settings
